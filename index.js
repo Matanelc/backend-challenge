@@ -12,7 +12,7 @@ const doneMsg = Buffer.from('{"id":"ALL CARDS"}')
 const readMsg = Buffer.from('{"ready":"true"}')
 let cards = [];
 const userCards = [];
-async function handleRequest(req, res) {
+function handleRequest(req, res) {
   if (req.url.indexOf("card_add") > -1) {
     const counter = userCards[req.url] ? userCards[req.url] : 0;
     if (counter >= 50) {
