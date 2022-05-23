@@ -8,19 +8,21 @@ const cardsData = fs.readFileSync("./cards.json");
 const allCards = JSON.parse(cardsData).map((card) =>
   Buffer.from(`{"id":"${card.id}","name":"${card.name}"}`)
 );
+const doneMsg = Buffer.from('{"id":"ALL CARDS"}')
+const readMsg = Buffer.from('{"ready":"true"}')
 let cards = [];
 const userCards = [];
 async function handleRequest(req, res) {
   if (req.url.indexOf("card_add") > -1) {
     const counter = userCards[req.url] ? userCards[req.url] : 0;
     if (counter >= 50) {
-      return res.end('{"id":"ALL CARDS"}');
+      return res.end(doneMsg);
     }
     const card = cards[counter];
     userCards[req.url] = counter + 1;
     return res.end(card);
   }
-  return res.end('{"ready":"true"}');
+  return res.end(readMsg);
 }
 
 client.on("ready", async () => {
